@@ -332,7 +332,24 @@ def process_excel_file(filepath, file_id):
             columns_info.append(col_info)
         
         # Convert DataFrame to list of dictionaries for JSON serialization
-        data = df.to_dict('records')
+        # Handle datetime and other non-serializable types
+        data = []
+        for record in df.to_dict('records'):
+            serializable_record = {}
+            for key, value in record.items():
+                if pd.isna(value):
+                    serializable_record[key] = None
+                elif isinstance(value, (datetime, pd.Timestamp)):
+                    serializable_record[key] = value.isoformat()
+                elif isinstance(value, time):
+                    serializable_record[key] = value.strftime('%H:%M:%S')
+                elif isinstance(value, (np.integer, np.floating)):
+                    serializable_record[key] = value.item()
+                elif isinstance(value, np.ndarray):
+                    serializable_record[key] = value.tolist()
+                else:
+                    serializable_record[key] = str(value)
+            data.append(serializable_record)
         
         # Get file size
         file_size = os.path.getsize(filepath)
@@ -490,6 +507,24 @@ def apply_filters(df, filters):
     
     return filtered_df
 
+# Custom JSON encoder to handle datetime and other non-serializable types
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (datetime, pd.Timestamp)):
+            return obj.isoformat()
+        elif isinstance(obj, time):
+            return obj.strftime('%H:%M:%S')
+        elif isinstance(obj, (np.integer, np.floating)):
+            return obj.item()
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif pd.isna(obj):
+            return None
+        return super().default(obj)
+
+# Set the custom JSON encoder for the Flask app
+app.json_encoder = CustomJSONEncoder
+
 @app.route('/')
 def index():
     """Serve the main HTML page"""
@@ -577,8 +612,24 @@ def filter_data():
         
         paginated_df = df.iloc[start_idx:end_idx]
         
-        # Convert to records
-        data = paginated_df.to_dict('records')
+        # Convert to records with proper serialization
+        data = []
+        for record in paginated_df.to_dict('records'):
+            serializable_record = {}
+            for key, value in record.items():
+                if pd.isna(value):
+                    serializable_record[key] = None
+                elif isinstance(value, (datetime, pd.Timestamp)):
+                    serializable_record[key] = value.isoformat()
+                elif isinstance(value, time):
+                    serializable_record[key] = value.strftime('%H:%M:%S')
+                elif isinstance(value, (np.integer, np.floating)):
+                    serializable_record[key] = value.item()
+                elif isinstance(value, np.ndarray):
+                    serializable_record[key] = value.tolist()
+                else:
+                    serializable_record[key] = str(value)
+            data.append(serializable_record)
         
         return jsonify({
             'success': True,
