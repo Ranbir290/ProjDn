@@ -7,31 +7,11 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        .navbar {
-            background: linear-gradient(135deg, #2c3e50, #34495e) !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .navbar-brand {
-            font-weight: bold;
-            color: white !important;
-        }
-        
-        .navbar-nav .nav-link {
-            color: rgba(255, 255, 255, 0.8) !important;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .navbar-nav .nav-link:hover {
-            color: white !important;
-        }
-        
-        .container-fluid {
-            padding: 0;
-        }
-        
+        .navbar { background: linear-gradient(135deg, #2c3e50, #34495e) !important; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .navbar-brand { font-weight: bold; color: white !important; }
+        .navbar-nav .nav-link { color: rgba(255, 255, 255, 0.8) !important; font-weight: 500; transition: color 0.3s ease; }
+        .navbar-nav .nav-link:hover { color: white !important; }
+        .container-fluid { padding: 0; }
         body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
         .main-content { padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; background: rgba(255, 255, 255, 0.95); border-radius: 20px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); backdrop-filter: blur(10px); overflow: hidden; }
@@ -58,15 +38,13 @@
         .stat-label { color: #718096; font-size: 0.9em; margin-top: 5px; }
         .filters-section { background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
         .filters-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+        .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
         .filter-group { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; }
         .filter-label { font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 0.9em; }
         .filter-input, .filter-select { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.9em; }
-        .date-range, .numeric-range, .time-range { display: flex; gap: 10px; align-items: center; }
-        .date-range input, .numeric-range input, .time-range input { flex: 1; }
-        .datetime-range { display: flex; flex-direction: column; gap: 10px; }
-        .datetime-part { display: flex; gap: 10px; align-items: center; }
-        .datetime-part label { font-size: 0.8em; color: #718096; min-width: 40px; }
+        .datetime-range, .numeric-range, .time-range { display: flex; gap: 8px; align-items: center; }
+        .datetime-range input, .numeric-range input, .time-range input { flex: 1; min-width: 0; }
+        .range-separator { color: #718096; font-size: 0.9em; font-weight: 500; white-space: nowrap; }
         .filter-actions { display: flex; gap: 10px; margin-top: 15px; }
         .table-container { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
         .table-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
@@ -88,7 +66,6 @@
         .btn-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
         .toggle-btn { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white; padding: 6px 12px; border-radius: 15px; cursor: pointer; font-size: 0.8em; }
         .toggle-btn:hover { background: rgba(255,255,255,0.1); }
-        .range-separator { color: #718096; font-size: 0.9em; font-weight: 500; }
         @media (max-width: 768px) {
             .container { margin: 10px; border-radius: 15px; }
             .upload-area { padding: 40px 20px; }
@@ -97,26 +74,22 @@
             .search-box { width: 100%; margin-bottom: 10px; }
             .filters-grid { grid-template-columns: 1fr; }
             th, td { padding: 8px 10px; max-width: 150px; }
-            .datetime-part { flex-direction: column; gap: 5px; }
-            .datetime-part label { min-width: auto; }
+            .datetime-range, .numeric-range, .time-range { flex-direction: column; gap: 5px; align-items: stretch; }
+            .range-separator { text-align: center; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">📊 Excel Data Viewer</a>
+            <a class="navbar-brand" href="/">📊 log Data Viewer</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Analysis">Analysis</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Analysis">Analysis</a></li>
                 </ul>
             </div>
         </div>
@@ -125,23 +98,23 @@
     <div class="main-content">
         <div class="container">
             <div class="header">
-                <h1>📊 Excel Data Viewer</h1>
-                <p>Upload and analyze your Excel files with advanced filtering</p>
+                <h1>📊 Log Data Viewer</h1>
+                <p>Upload and analyze your Log files with advanced filtering</p>
             </div>
 
             <div class="upload-section">
                 <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                     <div class="upload-icon">📁</div>
-                    <div class="upload-text">Drop your Excel file here</div>
-                    <div class="upload-subtext">or click to browse (.xlsx, .xls, .csv files supported)</div>
+                    <div class="upload-text">Drop your Log file here</div>
+                    <div class="upload-subtext">or click to browse (.xlsx, .xls, .csv, .jrn, .prn files supported) - Multiple files will be combined</div>
                     <button class="btn">Choose File</button>
                 </div>
-                <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" />
+               <input type="file" id="fileInput" accept=".xlsx,.xls,.csv,.jrn,.prn" multiple />
             </div>
         
             <div class="loading">
                 <div class="spinner"></div>
-                <p>Processing your Excel file...</p>
+                <p>Processing your file...</p>
             </div>
 
             <div class="error"></div>
@@ -188,7 +161,7 @@
                         <div class="btn-group">
                             <input type="text" class="search-box" id="searchBox" placeholder="Search data..." />
                             <button class="btn btn-small" onclick="exportData()">💾 Export CSV</button>
-                            <button class="btn btn-small btn-danger" onclick="resetUpload()">🔄 New File</button>
+                            <button class="btn btn-small" onclick="resetUpload()">🔄 New File</button>
                         </div>
                     </div>
                     <div class="table-wrapper">
@@ -209,294 +182,301 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <script>
-        let currentData = null;
-        let currentPage = 1;
-        let totalPages = 1;
-        let currentFileId = null;
-        let columnsInfo = [];
-        let searchTimeout = null;
+        let currentData = null, currentPage = 1, totalPages = 1, currentFileId = null, columnsInfo = [], searchTimeout = null;
+        const fileInput = document.getElementById('fileInput'), uploadArea = document.querySelector('.upload-area'),
+              loading = document.querySelector('.loading'), errorDiv = document.querySelector('.error'),
+              dataSection = document.querySelector('.data-section');
 
-        const fileInput = document.getElementById('fileInput');
-        const uploadArea = document.querySelector('.upload-area');
-        const loading = document.querySelector('.loading');
-        const errorDiv = document.querySelector('.error');
-        const dataSection = document.querySelector('.data-section');
-
-        // Drag and drop handlers
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
         uploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
             uploadArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) {
-                handleFileUpload(e.dataTransfer.files[0]);
-            }
+            if (e.dataTransfer.files.length > 0) handleMultipleFiles(Array.from(e.dataTransfer.files));
         });
-
         fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileUpload(e.target.files[0]);
-            }
+            if (e.target.files.length > 0) handleMultipleFiles(Array.from(e.target.files));
         });
-
-        // Search functionality
-        document.getElementById('searchBox').addEventListener('input', (e) => {
+        document.getElementById('searchBox').addEventListener('input', () => {
             clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                currentPage = 1;
-                loadData();
-            }, 300);
+            searchTimeout = setTimeout(() => { currentPage = 1; loadData(); }, 300);
         });
 
-        async function handleFileUpload(file) {
-            showLoading(true);
-            hideError();
-
+        async function handleMultipleFiles(files) {
+            showLoading(true); hideError();
             const formData = new FormData();
-            formData.append('file', file);
+            files.forEach(file => formData.append('files', file));
 
             try {
-                const response = await fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
+                const response = await fetch('/upload-multiple', { method: 'POST', body: formData });
                 const result = await response.json();
 
                 if (result.success) {
                     currentFileId = result.file_id;
                     currentData = result;
                     columnsInfo = result.metadata.columns_info;
-                    
-                    // Update UI
-                    document.getElementById('fileName').textContent = `File: ${file.name}`;
+                    document.getElementById('fileName').textContent = `Files: ${files.map(f => f.name).join(', ')}`;
                     document.getElementById('totalRows').textContent = result.metadata.total_rows;
                     document.getElementById('totalColumns').textContent = result.metadata.total_columns;
-                    document.getElementById('fileSize').textContent = formatFileSize(result.metadata.file_size);
-                    
-                    buildFilters();
-                    loadData();
+                    document.getElementById('fileSize').textContent = formatFileSize(result.metadata.file_size || 0);
+                    buildFilters(); loadData();
                     dataSection.style.display = 'block';
-                } else {
-                    showError(result.error || 'Failed to process file');
-                }
-            } catch (error) {
-                showError('Error uploading file: ' + error.message);
-            } finally {
-                showLoading(false);
+                } else showError(result.error || 'Failed to process files');
+            } catch (error) { showError('Error uploading files: ' + error.message); }
+            finally { showLoading(false); }
+        }
+
+       function buildFilters() {
+    const filtersGrid = document.getElementById('filtersGrid');
+    filtersGrid.innerHTML = '';
+    
+    // Group Date and Timestamp columns together
+    const dateCol = columnsInfo.find(col => col.name.toLowerCase() === 'date');
+    const timestampCol = columnsInfo.find(col => col.name.toLowerCase() === 'timestamp');
+    const otherCols = columnsInfo.filter(col => 
+        col.name.toLowerCase() !== 'date' && col.name.toLowerCase() !== 'timestamp'
+    );
+
+    // Create combined datetime filter if both Date and Timestamp exist
+    if (dateCol && timestampCol) {
+        const filterDiv = document.createElement('div');
+        filterDiv.className = 'filter-group';
+        filterDiv.innerHTML = `
+            <div class="filter-label">Date & Time Filters</div>
+            <div style="margin-bottom: 15px;">
+                <div style="font-weight: 500; margin-bottom: 8px; color: #4a5568; font-size: 0.85em;">Date Range:</div>
+                <div class="datetime-range">
+                    <input type="date" id="filter_date_start" class="filter-input" placeholder="Start Date">
+                    <span class="range-separator">to</span>
+                    <input type="date" id="filter_date_end" class="filter-input" placeholder="End Date">
+                </div>
+            </div>
+            <div>
+                <div style="font-weight: 500; margin-bottom: 8px; color: #4a5568; font-size: 0.85em;">Time Range:</div>
+                <div class="time-range">
+                    <input type="time" id="filter_time_start" class="filter-input" step="1" placeholder="Start Time">
+                    <span class="range-separator">to</span>
+                    <input type="time" id="filter_time_end" class="filter-input" step="1" placeholder="End Time">
+                </div>
+            </div>
+        `;
+        filtersGrid.appendChild(filterDiv);
+    } else {
+        // Add individual Date/Timestamp filters if they exist separately
+        [dateCol, timestampCol].filter(Boolean).forEach(col => {
+            const filterDiv = document.createElement('div');
+            filterDiv.className = 'filter-group';
+            
+            if (col.name.toLowerCase() === 'date') {
+                filterDiv.innerHTML = `
+                    <div class="filter-label">${col.name}</div>
+                    <div class="datetime-range">
+                        <input type="date" id="filter_${col.name}_start" class="filter-input">
+                        <span class="range-separator">to</span>
+                        <input type="date" id="filter_${col.name}_end" class="filter-input">
+                    </div>
+                `;
+            } else if (col.name.toLowerCase() === 'timestamp') {
+                filterDiv.innerHTML = `
+                    <div class="filter-label">${col.name}</div>
+                    <div class="time-range">
+                        <input type="time" id="filter_${col.name}_start" class="filter-input" step="1">
+                        <span class="range-separator">to</span>
+                        <input type="time" id="filter_${col.name}_end" class="filter-input" step="1">
+                    </div>
+                `;
             }
-        }
+            filtersGrid.appendChild(filterDiv);
+        });
+    }
 
-        function buildFilters() {
-            const filtersGrid = document.getElementById('filtersGrid');
-            filtersGrid.innerHTML = '';
+    // Add other column filters (rest remains the same)
+    otherCols.forEach(col => {
+        const filterDiv = document.createElement('div');
+        filterDiv.className = 'filter-group';
+        let filterHTML = `<div class="filter-label">${col.name}</div>`;
 
-            columnsInfo.forEach(col => {
-                const filterDiv = document.createElement('div');
-                filterDiv.className = 'filter-group';
-                
-                let filterHTML = `<div class="filter-label">${col.name} (${col.data_type})</div>`;
-                
-                if (col.data_type === 'datetime') {
-                    const options = col.filter_options;
-                    filterHTML += `
-                        <div class="datetime-range">
-                            <div class="datetime-part">
-                                <label>Date:</label>
-                                <input type="date" id="filter_${col.name}_start_date" class="filter-input" 
-                                       value="${options.min_date || ''}" min="${options.min_date || ''}" max="${options.max_date || ''}">
-                                <span class="range-separator">to</span>
-                                <input type="date" id="filter_${col.name}_end_date" class="filter-input" 
-                                       value="${options.max_date || ''}" min="${options.min_date || ''}" max="${options.max_date || ''}">
-                            </div>
-                            <div class="datetime-part">
-                                <label>Time:</label>
-                                <input type="time" id="filter_${col.name}_start_time" class="filter-input" 
-                                       value="${options.min_time || '00:00'}" step="1">
-                                <span class="range-separator">to</span>
-                                <input type="time" id="filter_${col.name}_end_time" class="filter-input" 
-                                       value="${options.max_time || '23:59'}" step="1">
-                            </div>
-                        </div>
-                    `;
-                } else if (col.data_type === 'time') {
-                    const options = col.filter_options;
-                    filterHTML += `
-                        <div class="time-range">
-                            <input type="time" id="filter_${col.name}_start" class="filter-input" 
-                                   value="${options.min_time || '00:00'}" step="1">
-                            <span class="range-separator">to</span>
-                            <input type="time" id="filter_${col.name}_end" class="filter-input" 
-                                   value="${options.max_time || '23:59'}" step="1">
-                        </div>
-                    `;
-                } else if (col.data_type === 'numeric') {
-                    const options = col.filter_options;
-                    filterHTML += `
-                        <div class="numeric-range">
-                            <input type="number" id="filter_${col.name}_min" class="filter-input" 
-                                   placeholder="Min: ${options.min_value || 0}" step="any">
-                            <span class="range-separator">to</span>
-                            <input type="number" id="filter_${col.name}_max" class="filter-input" 
-                                   placeholder="Max: ${options.max_value || 0}" step="any">
-                        </div>
-                    `;
-                } else {
-                    const options = col.filter_options.options || [];
-                    filterHTML += `
-                        <select id="filter_${col.name}" class="filter-select" multiple>
-                            ${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
-                        </select>
-                    `;
-                }
-                
-                filterDiv.innerHTML = filterHTML;
-                filtersGrid.appendChild(filterDiv);
-            });
+        if (col.data_type === 'datetime' || col.data_type === 'time') {
+            const options = col.filter_options;
+            filterHTML += `
+                <div class="datetime-range">
+                    <input type="datetime-local" id="filter_${col.name}_start" class="filter-input" 
+                           min="${options.min_datetime || ''}" max="${options.max_datetime || ''}">
+                    <span class="range-separator">to</span>
+                    <input type="datetime-local" id="filter_${col.name}_end" class="filter-input" 
+                           min="${options.min_datetime || ''}" max="${options.max_datetime || ''}">
+                </div>
+            `;
+        } else if (col.data_type === 'numeric') {
+            const options = col.filter_options;
+            filterHTML += `
+                <div class="numeric-range">
+                    <input type="number" id="filter_${col.name}_min" class="filter-input" 
+                           placeholder="Min: ${options.min_value || 0}" step="any">
+                    <span class="range-separator">to</span>
+                    <input type="number" id="filter_${col.name}_max" class="filter-input" 
+                           placeholder="Max: ${options.max_value || 0}" step="any">
+                </div>
+            `;
+        } else {
+            const options = col.filter_options.options || [];
+            filterHTML += `
+                <select id="filter_${col.name}" class="filter-select" multiple>
+                    ${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                </select>
+            `;
         }
+        
+        filterDiv.innerHTML = filterHTML;
+        filtersGrid.appendChild(filterDiv);
+    });
+}
 
         async function loadData() {
             if (!currentFileId) return;
-
             const filters = getFilters();
             const searchTerm = document.getElementById('searchBox').value;
 
             try {
                 const response = await fetch('/api/filter', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        file_id: currentFileId,
-                        filters: filters,
-                        search: searchTerm,
-                        page: currentPage,
-                        per_page: 50
+                        file_id: currentFileId, filters, search: searchTerm,
+                        page: currentPage, per_page: 50
                     })
                 });
 
                 const result = await response.json();
-
                 if (result.success) {
                     displayData(result.data);
                     updatePagination(result);
                     document.getElementById('filteredRows').textContent = result.total_rows;
-                } else {
-                    showError(result.error || 'Failed to load data');
-                }
-            } catch (error) {
-                showError('Error loading data: ' + error.message);
+                } else showError(result.error || 'Failed to load data');
+            } catch (error) { showError('Error loading data: ' + error.message); }
+        }
+
+       function getFilters() {
+    const filters = {};
+    
+    // Handle combined date and time filters
+    const dateCol = columnsInfo.find(col => col.name.toLowerCase() === 'date');
+    const timestampCol = columnsInfo.find(col => col.name.toLowerCase() === 'timestamp');
+    
+    if (dateCol && timestampCol) {
+        const dateStart = document.getElementById('filter_date_start')?.value;
+        const dateEnd = document.getElementById('filter_date_end')?.value;
+        const timeStart = document.getElementById('filter_time_start')?.value;
+        const timeEnd = document.getElementById('filter_time_end')?.value;
+        
+        // Apply date filters to Date column
+        if (dateStart || dateEnd) {
+            filters['Date'] = { 
+                type: 'date', 
+                start_date: dateStart, 
+                end_date: dateEnd 
+            };
+        }
+        
+        // Apply time filters to Timestamp column
+        if (timeStart || timeEnd) {
+            filters['Timestamp'] = { 
+                type: 'time', 
+                start_time: timeStart, 
+                end_time: timeEnd 
+            };
+        }
+    } else {
+        // Handle separate Date/Timestamp filters
+        if (dateCol) {
+            const start = document.getElementById(`filter_${dateCol.name}_start`)?.value;
+            const end = document.getElementById(`filter_${dateCol.name}_end`)?.value;
+            if (start || end) {
+                filters[dateCol.name] = { type: 'date', start_date: start, end_date: end };
             }
         }
-
-        function getFilters() {
-            const filters = {};
-
-            columnsInfo.forEach(col => {
-                if (col.data_type === 'datetime') {
-                    const startDate = document.getElementById(`filter_${col.name}_start_date`)?.value;
-                    const endDate = document.getElementById(`filter_${col.name}_end_date`)?.value;
-                    const startTime = document.getElementById(`filter_${col.name}_start_time`)?.value;
-                    const endTime = document.getElementById(`filter_${col.name}_end_time`)?.value;
-                    
-                    if (startDate || endDate || startTime || endTime) {
-                        filters[col.name] = {
-                            type: 'datetime',
-                            start_date: startDate,
-                            end_date: endDate,
-                            start_time: startTime || '00:00:00',
-                            end_time: endTime || '23:59:59'
-                        };
-                    }
-                } else if (col.data_type === 'time') {
-                    const startTime = document.getElementById(`filter_${col.name}_start`)?.value;
-                    const endTime = document.getElementById(`filter_${col.name}_end`)?.value;
-                    
-                    if (startTime || endTime) {
-                        filters[col.name] = {
-                            type: 'time',
-                            start_time: startTime || '00:00:00',
-                            end_time: endTime || '23:59:59'
-                        };
-                    }
-                } else if (col.data_type === 'numeric') {
-                    const minVal = document.getElementById(`filter_${col.name}_min`)?.value;
-                    const maxVal = document.getElementById(`filter_${col.name}_max`)?.value;
-                    
-                    if (minVal || maxVal) {
-                        filters[col.name] = {
-                            type: 'numeric',
-                            min: minVal ? parseFloat(minVal) : null,
-                            max: maxVal ? parseFloat(maxVal) : null
-                        };
-                    }
-                } else {
-                    const select = document.getElementById(`filter_${col.name}`);
-                    const selectedValues = Array.from(select.selectedOptions).map(opt => opt.value);
-                    
-                    if (selectedValues.length > 0) {
-                        filters[col.name] = {
-                            type: 'text',
-                            values: selectedValues
-                        };
-                    }
-                }
-            });
-
-            return filters;
+        
+        if (timestampCol) {
+            const start = document.getElementById(`filter_${timestampCol.name}_start`)?.value;
+            const end = document.getElementById(`filter_${timestampCol.name}_end`)?.value;
+            if (start || end) {
+                filters[timestampCol.name] = { type: 'time', start_time: start, end_time: end };
+            }
         }
+    }
+
+    // Handle other filters (rest remains the same)
+    columnsInfo.forEach(col => {
+        if (col.name.toLowerCase() === 'date' || col.name.toLowerCase() === 'timestamp') return;
+        
+        if (col.data_type === 'datetime' || col.data_type === 'time') {
+            const start = document.getElementById(`filter_${col.name}_start`)?.value;
+            const end = document.getElementById(`filter_${col.name}_end`)?.value;
+            if (start || end) {
+                filters[col.name] = { type: 'datetime', start_datetime: start, end_datetime: end };
+            }
+        } else if (col.data_type === 'numeric') {
+            const min = document.getElementById(`filter_${col.name}_min`)?.value;
+            const max = document.getElementById(`filter_${col.name}_max`)?.value;
+            if (min || max) {
+                filters[col.name] = { type: 'numeric', min: min ? parseFloat(min) : null, max: max ? parseFloat(max) : null };
+            }
+        } else {
+            const select = document.getElementById(`filter_${col.name}`);
+            const selectedValues = select ? Array.from(select.selectedOptions).map(opt => opt.value) : [];
+            if (selectedValues.length > 0) {
+                filters[col.name] = { type: 'text', values: selectedValues };
+            }
+        }
+    });
+
+    return filters;
+}
 
         function displayData(data) {
             const table = document.getElementById('dataTable');
-            const thead = table.querySelector('thead');
-            const tbody = table.querySelector('tbody');
-            
-            // Clear existing content
-            thead.innerHTML = '';
-            tbody.innerHTML = '';
+            const thead = table.querySelector('thead'), tbody = table.querySelector('tbody');
+            thead.innerHTML = ''; tbody.innerHTML = '';
 
             if (!data || data.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="100%" style="text-align: center; padding: 40px;">No data found</td></tr>';
                 return;
             }
 
-            // Create headers
-            const headers = Object.keys(data[0]);
+            const headers = columnsInfo.map(col => col.name);
             const headerRow = document.createElement('tr');
             headers.forEach(header => {
                 const th = document.createElement('th');
-                th.textContent = header;
-                th.title = header;
+                th.textContent = header; th.title = header;
                 headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
 
-            // Create data rows
             data.forEach(row => {
                 const tr = document.createElement('tr');
                 headers.forEach(header => {
                     const td = document.createElement('td');
-                    const value = row[header] || '';
-                    td.textContent = value;
-                    td.title = value;
+                    const value = formatCellValue(row[header], header);
+                    td.textContent = value; td.title = value;
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
             });
         }
 
+        function formatCellValue(value, columnName) {
+            if (value == null || value === '') return '';
+            const columnInfo = columnsInfo.find(col => col.name === columnName);
+            if (columnInfo && columnInfo.data_type === 'datetime') {
+                const dateStr = String(value);
+                if (dateStr.includes('T00:00:00')) return dateStr.split('T')[0];
+                return dateStr.replace('T', ' ').replace(/:\d{2}$/, '');
+            }
+            return String(value);
+        }
+
         function updatePagination(result) {
-            totalPages = result.total_pages;
-            currentPage = result.page;
-            
+            totalPages = result.total_pages; currentPage = result.page;
             document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
             document.getElementById('prevBtn').disabled = currentPage === 1;
             document.getElementById('nextBtn').disabled = currentPage === totalPages;
@@ -504,31 +484,33 @@
 
         function changePage(direction) {
             const newPage = currentPage + direction;
-            if (newPage >= 1 && newPage <= totalPages) {
-                currentPage = newPage;
-                loadData();
-            }
+            if (newPage >= 1 && newPage <= totalPages) { currentPage = newPage; loadData(); }
         }
 
-        function applyFilters() {
-            currentPage = 1;
-            loadData();
-        }
+        function applyFilters() { currentPage = 1; loadData(); }
 
-        function clearFilters() {
-            // Clear all filter inputs
-            const inputs = document.querySelectorAll('.filter-input');
-            const selects = document.querySelectorAll('.filter-select');
-            
-            inputs.forEach(input => input.value = '');
-            selects.forEach(select => {
-                Array.from(select.options).forEach(option => option.selected = false);
-            });
-            
-            document.getElementById('searchBox').value = '';
-            currentPage = 1;
-            loadData();
-        }
+       function clearFilters() {
+    // Clear all input types including the new date and time inputs
+    document.querySelectorAll('.filter-input').forEach(input => input.value = '');
+    document.querySelectorAll('.filter-select').forEach(select => 
+        Array.from(select.options).forEach(option => option.selected = false)
+    );
+    
+    // Clear specific date and time filters if they exist
+    const dateStart = document.getElementById('filter_date_start');
+    const dateEnd = document.getElementById('filter_date_end');
+    const timeStart = document.getElementById('filter_time_start');
+    const timeEnd = document.getElementById('filter_time_end');
+    
+    if (dateStart) dateStart.value = '';
+    if (dateEnd) dateEnd.value = '';
+    if (timeStart) timeStart.value = '';
+    if (timeEnd) timeEnd.value = '';
+    
+    document.getElementById('searchBox').value = '';
+    currentPage = 1; 
+    loadData();
+}
 
         function toggleFilters() {
             const section = document.getElementById('filtersSection');
@@ -537,82 +519,48 @@
             const actions = section.querySelector('.filter-actions');
             
             if (grid.style.display === 'none') {
-                grid.style.display = 'grid';
-                actions.style.display = 'flex';
+                grid.style.display = 'grid'; actions.style.display = 'flex';
                 btn.textContent = 'Hide Filters';
             } else {
-                grid.style.display = 'none';
-                actions.style.display = 'none';
+                grid.style.display = 'none'; actions.style.display = 'none';
                 btn.textContent = 'Show Filters';
             }
         }
 
         async function exportData() {
             if (!currentFileId) return;
-
-            const filters = getFilters();
-            const searchTerm = document.getElementById('searchBox').value;
+            const filters = getFilters(), searchTerm = document.getElementById('searchBox').value;
 
             try {
                 const response = await fetch('/api/export', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        file_id: currentFileId,
-                        filters: filters,
-                        search: searchTerm,
-                        format: 'csv'
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ file_id: currentFileId, filters, search: searchTerm, format: 'csv' })
                 });
 
                 const result = await response.json();
-
                 if (result.success) {
                     const blob = new Blob([result.data], { type: 'text/csv' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
-                    a.href = url;
-                    a.download = result.filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                } else {
-                    showError(result.error || 'Failed to export data');
-                }
-            } catch (error) {
-                showError('Error exporting data: ' + error.message);
-            }
+                    a.href = url; a.download = result.filename;
+                    document.body.appendChild(a); a.click();
+                    document.body.removeChild(a); window.URL.revokeObjectURL(url);
+                } else showError(result.error || 'Failed to export data');
+            } catch (error) { showError('Error exporting data: ' + error.message); }
         }
 
         function resetUpload() {
-            fileInput.value = '';
-            dataSection.style.display = 'none';
-            currentData = null;
-            currentFileId = null;
-            currentPage = 1;
-            hideError();
+            fileInput.value = ''; dataSection.style.display = 'none';
+            currentData = null; currentFileId = null; currentPage = 1; hideError();
         }
 
-        function showLoading(show) {
-            loading.style.display = show ? 'block' : 'none';
-        }
-
-        function showError(message) {
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-        }
-
-        function hideError() {
-            errorDiv.style.display = 'none';
-        }
-
+        function showLoading(show) { loading.style.display = show ? 'block' : 'none'; }
+        function showError(message) { errorDiv.textContent = message; errorDiv.style.display = 'block'; }
+        function hideError() { errorDiv.style.display = 'none'; }
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const k = 1024, sizes = ['Bytes', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
